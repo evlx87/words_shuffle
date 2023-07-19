@@ -1,13 +1,10 @@
 import random
 
 
-def get_word(input_file):
+def get_words(input_file):
     with open(input_file, 'r') as file:
-        words = file.read().split()
-        if words:
-            return words[0]
-        else:
-            return None
+        words_list = file.read().split()
+    return words_list
 
 
 def shuffle_word(word):
@@ -17,8 +14,25 @@ def shuffle_word(word):
     return shuffled_word
 
 
-user_name = input("Введите ваше имя\n")
+def write_history(name, result):
+    with open('history.txt', 'a') as file:
+        file.write(f'{name} {result}\n')
 
-first_word = get_word('words.txt')
-print(first_word)
-print(shuffle_word(first_word))
+
+def guess_word(words_list):
+    score = 0
+    for word in words_list:
+        print(f"Угадай слово: {shuffle_word(word)}")
+        answer = input("Ваш ответ: ").lower()
+        if answer == word:
+            print(f"Верно! Вы получаете 10 очков.")
+            score += 10
+        else:
+            print(f"Неверно! Верный ответ – {word}.")
+    return score
+
+
+user_name = input("Введите ваше имя\n")
+words = get_words('words.txt')
+total_score = guess_word(words)
+write_history(user_name, total_score)
