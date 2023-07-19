@@ -1,13 +1,17 @@
+"""Игры в угадывание слов"""
+
 import random
 
 
 def get_words(input_file):
-    with open(input_file, 'r') as file:
+    """Читает файл и возвращает список слов"""
+    with open(input_file, 'r', encoding='utf-8') as file:
         words_list = file.read().split()
     return words_list
 
 
 def shuffle_word(word):
+    """Перемешивает буквы в слове случайным образом"""
     letters = list(word)
     random.shuffle(letters)
     shuffled_word = ''.join(letters)
@@ -15,17 +19,19 @@ def shuffle_word(word):
 
 
 def write_history(name, result):
-    with open('history.txt', 'a') as file:
+    """Записывает имя игрока и его результат в файл history.txt"""
+    with open('history.txt', 'a', encoding='utf-8') as file:
         file.write(f'{name} {result}\n')
 
 
 def guess_word(words_list):
+    """Запускает игру с угадыванием перемешанных слов и ведет счет правильных ответов"""
     score = 0
     for word in words_list:
         print(f"Угадай слово: {shuffle_word(word)}")
         answer = input("Ваш ответ: ").lower()
         if answer == word:
-            print(f"Верно! Вы получаете 10 очков.")
+            print("Верно! Вы получаете 10 очков.")
             score += 10
         else:
             print(f"Неверно! Верный ответ – {word}.")
@@ -33,7 +39,8 @@ def guess_word(words_list):
 
 
 def result_output(history_file):
-    with open(history_file, 'r') as file:
+    """Читает файл истории и выводит общее количество сыгранных игр и максимальный счет"""
+    with open(history_file, 'r', encoding='utf-8') as file:
         history = file.readlines()
     history_dict = {}
     for line in history:
