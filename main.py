@@ -32,7 +32,21 @@ def guess_word(words_list):
     return score
 
 
+def result_output(history_file):
+    with open(history_file, 'r') as file:
+        history = file.readlines()
+    history_dict = {}
+    for line in history:
+        line = line.strip()
+        if line:
+            key, value = line.split()
+            history_dict[key] = int(value)
+    print(f"""Всего игр сыграно: {len(history_dict)}
+Максимальный рекорд: {max(history_dict.values())} """)
+
+
 user_name = input("Введите ваше имя\n")
 words = get_words('words.txt')
 total_score = guess_word(words)
 write_history(user_name, total_score)
+result_output('history.txt')
